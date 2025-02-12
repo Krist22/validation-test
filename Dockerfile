@@ -20,9 +20,7 @@ RUN apk add --no-cache \
 # Génération de l'UUID pour DBus
 RUN dbus-uuidgen > /var/lib/dbus/machine-id
 
+RUN cp startup.sh /usr/local/bin/startup.sh && chmod +x /usr/local/bin/startup.sh
+
 # Script d'entrée pour démarrer l'environnement graphique et VNC
-CMD Xvfb :1 -screen 0 1024x768x16 & \
-    export DISPLAY=:1 && \
-    dbus-daemon --system & \
-    startxfce4 & \
-    x11vnc -display :1 -forever
+CMD ["/usr/local/bin/startup.sh"]
